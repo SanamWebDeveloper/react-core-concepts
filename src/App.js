@@ -14,6 +14,10 @@ function App() {
         <div className="App">
           <header className="App-header">
 
+           
+
+            <Calculator></Calculator>
+            <Taxer></Taxer>
             <Counter></Counter>
             <Users></Users>
 
@@ -22,6 +26,8 @@ function App() {
                 friends.map(x => <Friend values= {x} > </Friend>)
             }
 
+            <Post></Post>   
+            <Photos></Photos>
           </header>
       </div>
   );
@@ -38,6 +44,36 @@ function Counter(){
         </div>
     )    
 }
+
+
+                //My Test COMPONENT, creating Button for testing mouse event handler and changing state!
+
+                function Calculator(){
+                    const [ calculate, setCalculate] = useState(20);
+                    return(
+                        <div>
+                            <h1>INITIAL: {calculate} </h1>
+                            <h1>TEST mouse event hadler n STATE</h1>
+                            <button onClick={() => setCalculate(calculate+1)}>TIPO</button>
+                            <button onClick={() => setCalculate(calculate-1)}>Komao</button>
+                        </div>
+                    )
+                }
+
+                //abar ekta component for State n mosuevent handler!
+
+                function Taxer(){
+                    const [tax, setTax] = useState(0);
+                    return(
+                        <div>
+                            <h1>Testing Mouse event n State!</h1>
+                            <h2>Value:{tax}</h2>
+                            <button onClick={() => setTax(tax+1)}> MORE </button>
+                            <button onClick={() => setTax(tax-1)}> Less </button>
+                        </div>
+                    )
+                }
+
 
         //Creating component (Users)
     function Users(){
@@ -79,5 +115,49 @@ function Friend(props){
         </div>
     )
 }
+
+
+        //Taking data from Backend and process it by useEffect and useState!
+
+        function Photos(){
+            const [photo, setPhoto] = useState([]);
+            useEffect(() => {
+                fetch('https://jsonplaceholder.typicode.com/photos')
+                .then( res => res.json())
+                .then( data => setPhoto(data));
+            }, [])
+
+            return(
+                <div>
+                    <h1>My all Photo data!</h1>
+                    <h2>Dynamic Photos: {photo.length}</h2>
+                    <ul>
+                        {photo.map(x => <li>{x.thumbnailUrl}</li>)}
+                    </ul>
+                </div>
+            )
+
+        }
+
+        //COMPONENT for taking data from BACKEND.
+    function Post(){
+        const [post, setPost] = useState([]);
+        useEffect(() => {
+            fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(res => res.json())
+            .then(data => setPost(data))
+        }, [])
+
+        return(
+            <div>
+                <h1>MY ALL POST DATA!</h1>
+                <h2>Total Number: {post.length} </h2>
+            
+                {console.log(post)}
+            </div>
+        )
+    }
+
+
 
 export default App;
